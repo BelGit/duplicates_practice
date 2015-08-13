@@ -3,9 +3,12 @@ import string
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 import binascii
+import gensim
+from gensim import corpora, models, similarities
+import pymorphy2
+import sys
 
-tokenizer = RegexpTokenizer('\w+|\$[\d\.]+|\S+')
-stop_words = stopwords.words('russian')
+
 
 path = 'C:\Anaconda/test.txt'
 fid = open(path,'r')
@@ -17,6 +20,19 @@ fid = open(path,'r')
 lines2 = fid.readlines()
 fid.close()
 
+
+
+morph = pymorphy2.MorphAnalyzer()
+tokenizer = RegexpTokenizer('\w+|\$[\d\.]+|\S+')
+stop_words = stopwords.words('russian')
+
+def normalize(token):
+	try: 
+		gram_info = morph.parse(token)
+		return gram_info[0].normal_form
+	except:
+		return token
+
 def canonize(text):
 	tokens = []
 
@@ -26,7 +42,7 @@ def canonize(text):
 			if not token in string.punctuation:
 				token.strip(string.punctuation)
 				if not token in stop_words:
-					tokens.append(token.lower())
+					tokens.append(normalize(token.lower()))
 	return tokens
 
 def shingle(tokens):
