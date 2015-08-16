@@ -8,15 +8,15 @@ from gensim import corpora, models, similarities
 import pymorphy2
 import sys
 
+path = sys.path[0] + '\\test_docs'
 
-
-path = 'C:\Anaconda/test.txt'
-fid = open(path,'r')
+path1 = path + '\\doc0.txt'
+fid = open(path1,'r')
 lines1 = fid.readlines()
 fid.close()
 
-path = 'C:\Anaconda/test1.txt'
-fid = open(path,'r')
+path2 = path + '\\doc1.txt'
+fid = open(path2,'r')
 lines2 = fid.readlines()
 fid.close()
 
